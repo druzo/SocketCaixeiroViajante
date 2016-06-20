@@ -3,11 +3,19 @@
 #include <QTcpSocket>
 #include <serverclient.h>
 
+
+
 PainelDeControle::PainelDeControle(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::PainelDeControle)
 {
     ui->setupUi(this);
+    listaTSP = new QList<ResultadoTSP*>();
+    Graph * graph4 = new Graph(50, 0, true);
+    graph4->showInfoGraph();
+    Genetic genetic(graph4, 10, 1000, 5, true);
+    listaTSP->append(genetic.run());
+    qDebug()<<"resultado:" <<listaTSP->at(0)->caminhos<< " custo:"<<listaTSP->at(0)->custo;
     socketTcpServer = new SocketTcpServer(this);
     connect(socketTcpServer, SIGNAL(aoConectarNovoCliente(ServerClient*)), this, SLOT(aoConectarNovoCliente(ServerClient*)));
     connect(socketTcpServer,SIGNAL(newConnection()), this, SLOT(newConnection()));

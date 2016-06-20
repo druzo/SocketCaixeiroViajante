@@ -17,11 +17,13 @@ SOURCES += main.cpp\
         paineldecontrole.cpp \
     serverclient.cpp \
     sockettcpserver.cpp \
-    tarefaresultadocaxeiroviajante.cpp
+    tarefaresultadocaxeiroviajante.cpp \
+    tsp.cpp
 
 HEADERS  += paineldecontrole.h \
     serverclient.h \
     sockettcpserver.h \
-    tarefaresultadocaxeiroviajante.h
+    tarefaresultadocaxeiroviajante.h \
+    tsp.h
 
 FORMS    += paineldecontrole.ui

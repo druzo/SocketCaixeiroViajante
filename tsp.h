@@ -7,8 +7,9 @@
 #include <utility> // pair
 #include <time.h> // time
 #include <stdlib.h> // srand, rand
-
-
+#include <iostream>
+#include <qstring>
+using namespace std;
 // class that represents the graph
 class Graph
 {
@@ -39,6 +40,12 @@ struct sort_pred
 	}
 };
 
+struct ResultadoTSP
+{
+      QString caminhos;
+      int custo;
+};
+
 // class that represents genetic algorithm
 class Genetic
 {
@@ -58,7 +65,7 @@ public:
 	void showPopulation(); // shows population
 	void crossOver(std::vector<int>& parent1, std::vector<int>& parent2); // makes the crossover
 	void insertBinarySearch(std::vector<int>& child, int total_cost); // uses binary search to insert
-	void run(); // runs genetic algorithm
+    ResultadoTSP * run(); // runs genetic algorithm
 	int getCostBestSolution(); // returns cost of the best solution
 	bool existsChromosome(const std::vector<int> & v); // checks if exists the chromosome
 };

@@ -1,8 +1,6 @@
-#include <iostream>
+
 #include <algorithm> // sort, next_permutation
 #include "tsp.h"
-using namespace std;
-
 
 Graph::Graph(int V, int initial_vertex, bool random_graph) // constructor of Graph
 {
@@ -440,12 +438,12 @@ void Genetic::crossOver(vector<int>& parent1, vector<int>& parent2)
 
 
 // runs the genetic algorithm
-void Genetic::run()
+ResultadoTSP *Genetic::run()
 {
 	initialPopulation(); // gets initial population
 	
 	if(real_size_population == 0)
-		return;
+        return NULL;
 
 	for(int i = 0; i < generations; i++)
 	{
@@ -514,17 +512,24 @@ void Genetic::run()
 		}
 	}
 	
-//	if(show_population == true)
-//		showPopulation(); // shows the population
+	if(show_population == true)
+		showPopulation(); // shows the population
 	
-	cout << "\nBest solution: ";
+    ResultadoTSP *retorno = new ResultadoTSP;
+    cout << "\nBest solution: ";
+    retorno->caminhos = "[";
 	const vector<int>& vec = population[0].first;
-	for(int i = 0; i < graph->V; i++)
+
+    for(int i = 0; i < graph->V; i++){
 		cout << vec[i] << " ";
+        retorno->caminhos += QString::number(vec[i]) + " ";
+    }
+    retorno->caminhos += "]";
 	cout << graph->initial_vertex;
 	cout << " | Cost: " << population[0].second;
+    retorno->custo = population[0].second;
+    return retorno;
 }
-
 
 int Genetic::getCostBestSolution()
 {
