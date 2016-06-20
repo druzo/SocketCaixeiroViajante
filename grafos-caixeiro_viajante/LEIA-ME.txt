@@ -1,0 +1,32 @@
+Problema do Caixeiro Viajante
+
+Encontrar um caminho que parta de um vértice de origem qualquer, passe por todos os vértices do grafo uma única vez e retorne para o vértice de origem através do menor caminho possível.
+
+Foram disponibilizados três arquivos de texto contendo um grafo cada.
+Os arquivos estão formatados na forma de matriz de adjacências, de modo que:
+
+	- cada linha tem vários números inteiros positivos separados por ";" (ponto-e-vírgula)
+	- a linha i do arquivo se refere à linha i de uma matriz de adjacências, enquanto cada número dessa linha se refere à posição j da linha em questão
+
+Foram disponibilizados arquivos de 250, 500 e 750 vértices, conforme pode ser identificado no nome de cada arquivo.
+
+Para participar do desafio o aluno deverá criar um programa em qualquer linguagem implementando um algoritmo que encontre uma boa solução para o problema em questão.
+Cada um dos três grafos deverão ser submetidos ao MESMO programa/algoritmo e os resultados (melhor caminho encontrado para cada um dos grafos) deverão ser enviados ao professor.
+
+O resultado deverá ser enviado na forma de arquivos (um para cada grafo), com uma das seguintes estruturas:
+
+	- arquivo deverá conter a ordem de visita dos vértices, sendo um vértice por linha
+	- arquivo deverá conter a ordem de visita dos vértices em uma única linha, separando os vértices pelo caractere ";" (ponto-e-vírgula)
+
+Dadas as três distâncias totais (uma de cada grafo), o aluno que obtiver a melhor MÉDIA aritmética desses menores caminhos será o VENCEDOR.
+
+Restrições:
+
+1 - O aluno vencedor será notificado pelo professor e deverá enviar imediatamente o seu programa/algoritmo via e-mail para o professor.
+2 - Não será considerado vencedor o aluno que utilizar algoritmos diferentes para cada grafo.
+
+------------------
+-   IMPORTANTE   -
+------------------
+Considerando que o algoritmo irá rodar em um sistema computacional com processador Intel Core i5 2.50GHz com 4GB RAM, o algoritmo vencedor não deverá, sob hipótese alguma, ter que rodar por mais do que 10 minutos para obter a melhor solução.
+

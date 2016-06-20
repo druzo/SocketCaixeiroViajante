@@ -33,4 +33,3 @@ void PainelDeControle::aoConectarNovoCliente(ServerClient *cliente)
     connect(cliente, SIGNAL(aoReceberMensagem(QTcpSocket*,QByteArray)), this, SLOT(aoReceberMensagem(QTcpSocket*,QByteArray)));
     ui->listaClientes->addItem(cliente->getIpCliente());
 }
-
