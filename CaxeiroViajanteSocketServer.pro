@@ -16,10 +16,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         paineldecontrole.cpp \
     serverclient.cpp \
-    sockettcpserver.cpp
+    sockettcpserver.cpp \
+    tarefaresultadocaxeiroviajante.cpp
 
 HEADERS  += paineldecontrole.h \
     serverclient.h \
-    sockettcpserver.h
+    sockettcpserver.h \
+    tarefaresultadocaxeiroviajante.h
 
 FORMS    += paineldecontrole.ui

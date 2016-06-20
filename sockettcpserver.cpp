@@ -19,6 +19,11 @@ void SocketTcpServer::iniciarServidor()
     }
 }
 
+void SocketTcpServer::aoEstabelecerConexaoCliente(ServerClient *cliente)
+{
+    emit aoConectarNovoCliente(cliente);
+}
+
 void SocketTcpServer::incomingConnection(qintptr socketDescriptor)
 {
 //     We have a new connection
@@ -26,10 +31,11 @@ void SocketTcpServer::incomingConnection(qintptr socketDescriptor)
 
     // Every new connection will be run in a newly created thread
     ServerClient *conexaoCliente = new ServerClient(socketDescriptor, this);
+    connect(conexaoCliente, SIGNAL(aoEstabelecerConexao(ServerClient*)), this, SLOT(aoEstabelecerConexaoCliente(ServerClient*)));
     conexaoCliente->conectarCliente();
+    emit aoConectarNovoCliente(conexaoCliente);
     // connect signal/slot
     // once a thread is not needed, it will be deleted later
-    connect(conexaoCliente, SIGNAL(finished()), conexaoCliente, SLOT(deleteLater()));
-    conexaoCliente->start();
-    emit aoConectarNovoCliente(conexaoCliente);
+//    connect(conexaoCliente, SIGNAL(finished()), conexaoCliente, SLOT(deleteLater()));
+
 }

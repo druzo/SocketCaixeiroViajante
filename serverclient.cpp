@@ -1,29 +1,11 @@
 #include "serverclient.h"
 
-ServerClient::ServerClient(qintptr ID, QObject *parent): QThread(parent)
+ServerClient::ServerClient(qintptr ID, QObject *parent): QObject(parent)
 {
     socket = NULL;
     if (ID)
         this->socketDescriptor = ID;
-}
-
-void ServerClient::run()
-{
-    // connect socket and signal
-    // note - Qt::DirectConnection is used because it's multithreaded
-    //        This makes the slot to be invoked immediately, when the signal is emitted.
-
-    connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()), Qt::DirectConnection);
-    connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
-
-    // Mostrando no console qual cliente está conectado
-    qDebug() << socketDescriptor << " Está Conectado com o ip:"<< socket->peerAddress().toString();
-
-    //fazendo a thread entrar em loop
-    //esse comando é necessário para que a thread
-    //possa capturar os eventos signal/slot
-
-    exec();
+    QThreadPool::globalInstance()->setMaxThreadCount(5);
 }
 
 QTcpSocket *ServerClient::conectarCliente()
@@ -39,6 +21,9 @@ QTcpSocket *ServerClient::conectarCliente()
         emit serverClientErro(socket->error());
         return NULL;
     }
+    connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
+    connect(socket, SIGNAL(connected()), this, SLOT(connected()));
     return socket;
 }
 
@@ -48,13 +33,9 @@ QTcpSocket *ServerClient::conectarCliente(QString enderecoIP, qint16 porta)
     qDebug() << " Iniciou uma thread de conexão com o servidor";
     socket = new QTcpSocket();
     socket->connectToHost(enderecoIP, porta);
-    // verifica se é um descritor válido
-    if(!socket->setSocketDescriptor(this->socketDescriptor))
-    {
-        // Aconteceu algum problema, emitindo o erro
-        emit serverClientErro(socket->error());
-        return NULL;
-    }
+    connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+    connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
+    connect(socket, SIGNAL(connected()), this, SLOT(connected()));
     return socket;
 }
 
@@ -73,9 +54,11 @@ void ServerClient::readyRead()
 
     // will write on server side window
     qDebug() << socketDescriptor << "IP:" << socket->peerAddress().toString() << " Dados: " << dados;
-
-    socket->write(dados);
-
+    TarefaResultadoCaxeiroViajante *tarefaRCV = new TarefaResultadoCaxeiroViajante();
+    tarefaRCV->setAutoDelete(true);
+    connect(tarefaRCV, SIGNAL(resultado(QString)), this, SLOT(resultado(QString)), Qt::QueuedConnection);
+    qDebug()<< "Iniciando nova tarefa no pool de thread";
+    QThreadPool::globalInstance()->start(tarefaRCV);
     emit aoReceberMensagem(socket, dados);
 }
 
@@ -85,5 +68,23 @@ void ServerClient::disconnected()
 
     socket->deleteLater();
     exit(0);
+}
+
+void ServerClient::connected()
+{
+    qDebug() << "Cliente conectado...";
+    emit aoEstabelecerConexao(this);
+}
+
+void ServerClient::resultado(QString dados)
+{
+    QByteArray buffer;
+    buffer.append(dados);
+    socket->write(buffer);
+}
+
+QTcpSocket *ServerClient::getSocket() const
+{
+    return socket;
 }
 

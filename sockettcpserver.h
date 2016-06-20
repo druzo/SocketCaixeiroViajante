@@ -11,7 +11,7 @@ public:
 signals:
     void aoConectarNovoCliente(ServerClient *cliente);
 public slots:
-
+    void aoEstabelecerConexaoCliente(ServerClient *cliente);
 protected:
     void incomingConnection(qintptr socketDescriptor);
 };

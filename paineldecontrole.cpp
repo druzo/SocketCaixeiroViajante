@@ -21,7 +21,6 @@ PainelDeControle::~PainelDeControle()
 void PainelDeControle::on_pushButton_clicked()
 {
     socketTcpServer->iniciarServidor();
-//    ui->
 }
 
 void PainelDeControle::aoReceberMensagem(QTcpSocket *cliente, QByteArray dados)
@@ -32,6 +31,6 @@ void PainelDeControle::aoReceberMensagem(QTcpSocket *cliente, QByteArray dados)
 void PainelDeControle::aoConectarNovoCliente(ServerClient *cliente)
 {
     connect(cliente, SIGNAL(aoReceberMensagem(QTcpSocket*,QByteArray)), this, SLOT(aoReceberMensagem(QTcpSocket*,QByteArray)));
-//    ui->listaClientes->addItem(cliente->getIpCliente());
+    ui->listaClientes->addItem(cliente->getIpCliente());
 }
 
