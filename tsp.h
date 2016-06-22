@@ -44,6 +44,7 @@ struct ResultadoTSP
 {
       QString caminhos;
       int custo;
+      int tempoExecucao;
 };
 
 // class that represents genetic algorithm

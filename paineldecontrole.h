@@ -5,6 +5,7 @@
 #include <QList>
 #include "sockettcpserver.h"
 #include "tsp.h"
+#include "geradorcaminhos.h"
 namespace Ui {
 class PainelDeControle;
 }
@@ -20,10 +21,15 @@ public:
 private slots:
     void on_pushButton_clicked();
     void aoReceberMensagem(QTcpSocket *cliente, QByteArray dados);
-    void aoConectarNovoCliente(ServerClient *cliente);
+    void aoConectarNovoCliente(ServerClient *cliente);    
+    void on_btCarregarGrafo_clicked();
+
 private:
     Ui::PainelDeControle *ui;
     SocketTcpServer *socketTcpServer;
+    Graph *grafoCidades;
+    GeradorCaminhos *geradorCaminhos;
+    void carregarArquivoGrafos(QString caminho, Graph *grafo);
 };
 
 #endif // PAINELDECONTROLE_H

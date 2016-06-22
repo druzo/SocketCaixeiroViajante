@@ -18,12 +18,14 @@ SOURCES += main.cpp\
     serverclient.cpp \
     sockettcpserver.cpp \
     tarefaresultadocaxeiroviajante.cpp \
-    tsp.cpp
+    tsp.cpp \
+    geradorcaminhos.cpp
 
 HEADERS  += paineldecontrole.h \
     serverclient.h \
     sockettcpserver.h \
     tarefaresultadocaxeiroviajante.h \
-    tsp.h
+    tsp.h \
+    geradorcaminhos.h
 
 FORMS    += paineldecontrole.ui
