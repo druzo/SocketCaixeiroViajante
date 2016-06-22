@@ -1,6 +1,12 @@
 #include "serverclient.h"
 
+
+#ifdef _WIN32
 ServerClient::ServerClient(qintptr ID, QObject *parent): QObject(parent)
+#else
+ServerClient::ServerClient(int ID, QObject *parent): QObject(parent)
+#endif
+
 {
     socket = NULL;
     if (ID)
@@ -54,7 +60,8 @@ void ServerClient::readyRead()
 
     // will write on server side window
     qDebug() << socketDescriptor << "IP:" << socket->peerAddress().toString() << " Dados: " << dados;
-    TarefaResultadoCaxeiroViajante *tarefaRCV = new TarefaResultadoCaxeiroViajante();
+    QString menagem = dados;
+    TarefaResultadoCaxeiroViajante *tarefaRCV = new TarefaResultadoCaxeiroViajante(menagem);
     tarefaRCV->setAutoDelete(true);
     connect(tarefaRCV, SIGNAL(resultado(QString)), this, SLOT(resultado(QString)), Qt::QueuedConnection);
     qDebug()<< "Iniciando nova tarefa no pool de thread";
@@ -65,7 +72,6 @@ void ServerClient::readyRead()
 void ServerClient::disconnected()
 {
     qDebug() << socketDescriptor << "IP:"<< socket->peerAddress().toString()<< " Desconectou";
-
     socket->deleteLater();
     exit(0);
 }

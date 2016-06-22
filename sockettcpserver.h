@@ -13,7 +13,11 @@ signals:
 public slots:
     void aoEstabelecerConexaoCliente(ServerClient *cliente);
 protected:
+#ifdef _WIN32
     void incomingConnection(qintptr socketDescriptor);
+#else
+    void incomingConnection(int socketDescriptor);
+#endif
 };
 
 #endif // SOCKETTCPSERVER_H

@@ -8,13 +8,15 @@ class TarefaResultadoCaxeiroViajante : public QObject, public QRunnable
 {
     Q_OBJECT
 public:
-    explicit TarefaResultadoCaxeiroViajante();
+    explicit TarefaResultadoCaxeiroViajante(QString mensagem);
 
 signals:
     void resultado(QString dados);
 public slots:
 protected:
     void run();
+private:
+    QString mensagem;
 };
 
 #endif // TAREFARESULTADOCAXEIROVIAJANTE_H

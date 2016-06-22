@@ -8,7 +8,7 @@
 #include <time.h> // time
 #include <stdlib.h> // srand, rand
 #include <iostream>
-#include <qstring>
+#include <qstring.h>
 using namespace std;
 // class that represents the graph
 class Graph

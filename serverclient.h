@@ -13,7 +13,12 @@ public:
 Q_OBJECT
 
 public:
+//diretivas de compilação pois no windows o tipo do construtor é diferente
+#ifdef _WIN32
     explicit ServerClient(qintptr ID, QObject *parent);
+#else
+    explicit ServerClient(int ID, QObject *parent);
+#endif
     QTcpSocket *conectarCliente();
     QTcpSocket *conectarCliente(QString enderecoIP, qint16 porta);
 
@@ -33,9 +38,14 @@ public slots:
     void resultado(QString dados);
 
 
-private:
+private:    
     QTcpSocket *socket;
+//diretivas de compilação pois no windows o tipo do ID é um e no Linux é outro
+#ifdef _WIN32
     qintptr socketDescriptor;
+#else
+    int socketDescriptor;
+#endif
 };
 
 #endif // SERVERCLIENT_H
