@@ -2,9 +2,9 @@
 
 
 #ifdef _WIN32
-ServerClient::ServerClient(qintptr ID, QObject *parent): QObject(parent)
+ServerClient::ServerClient(QList<ResultadoTSP*> *listaResultados,qintptr ID, QObject *parent): QObject(parent)
 #else
-ServerClient::ServerClient(int ID, QObject *parent): QObject(parent)
+ServerClient::ServerClient(QList<ResultadoTSP*> *listaResultados, int ID, QObject *parent): QObject(parent)
 #endif
 
 {
@@ -12,6 +12,7 @@ ServerClient::ServerClient(int ID, QObject *parent): QObject(parent)
     if (ID)
         this->socketDescriptor = ID;
     QThreadPool::globalInstance()->setMaxThreadCount(5);
+    this->listaResultados = listaResultados;
 }
 
 QTcpSocket *ServerClient::conectarCliente()
@@ -30,6 +31,7 @@ QTcpSocket *ServerClient::conectarCliente()
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
     connect(socket, SIGNAL(connected()), this, SLOT(connected()));
+    socket->write("Bem vindo ao nosso servidor!\n");
     return socket;
 }
 
@@ -60,8 +62,8 @@ void ServerClient::readyRead()
 
     // will write on server side window
     qDebug() << socketDescriptor << "IP:" << socket->peerAddress().toString() << " Dados: " << dados;
-    QString menagem = dados;
-    TarefaResultadoCaxeiroViajante *tarefaRCV = new TarefaResultadoCaxeiroViajante(menagem);
+    QString mensagem = dados;
+    TarefaResultadoCaxeiroViajante *tarefaRCV = new TarefaResultadoCaxeiroViajante(this->listaResultados, mensagem);
     tarefaRCV->setAutoDelete(true);
     connect(tarefaRCV, SIGNAL(resultado(QString)), this, SLOT(resultado(QString)), Qt::QueuedConnection);
     qDebug()<< "Iniciando nova tarefa no pool de thread";

@@ -2,11 +2,12 @@
 #define SOCKETTCPSERVER_H
 #include <QTcpServer>
 #include "serverclient.h"
+#include "tsp.h"
 class SocketTcpServer : public QTcpServer
 {
 Q_OBJECT
 public:
-    explicit SocketTcpServer(QObject *parent);
+    explicit SocketTcpServer(QList<ResultadoTSP*> *listaResultados,QObject *parent);
     void iniciarServidor();
 signals:
     void aoConectarNovoCliente(ServerClient *cliente);
@@ -18,6 +19,8 @@ protected:
 #else
     void incomingConnection(int socketDescriptor);
 #endif
+private:
+    QList<ResultadoTSP*> *listaResultados;
 };
 
 #endif // SOCKETTCPSERVER_H

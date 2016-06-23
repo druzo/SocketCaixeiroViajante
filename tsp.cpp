@@ -225,7 +225,7 @@ void Genetic::initialPopulation() // generates the initial population
 
 void Genetic::showPopulation()
 {
-	cout << "\nShowing solutions...\n\n";
+    /*cout << "\nShowing solutions...\n\n";
 	for(vector<pair<vector<int>, int> >::iterator it=population.begin(); it!=population.end(); ++it)
 	{
 		const vector<int>& vec = (*it).first; // gets the vector
@@ -235,7 +235,7 @@ void Genetic::showPopulation()
 		cout << graph->initial_vertex;
 		cout << " | Cost: " << (*it).second << "\n\n";
 	}
-	cout << "\nPopulation size: " << real_size_population << endl;
+    cout << "\nPopulation size: " << real_size_population << endl;*/
 }
 
 
@@ -526,7 +526,7 @@ ResultadoTSP *Genetic::run()
     }
     retorno->caminhos += "]";
 	cout << graph->initial_vertex;
-	cout << " | Cost: " << population[0].second;
+    cout << " | Custo: " << population[0].second;
     retorno->custo = population[0].second;
     return retorno;
 }

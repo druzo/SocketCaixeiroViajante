@@ -3,6 +3,8 @@
 #include <QTcpSocket>
 #include <serverclient.h>
 #include <QFileDialog>
+
+
 PainelDeControle::PainelDeControle(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::PainelDeControle)
@@ -10,9 +12,10 @@ PainelDeControle::PainelDeControle(QWidget *parent) :
     ui->setupUi(this);
     listaTSP = new QList<ResultadoTSP*>();
     grafoCidades = new Graph(249, 0);
-    socketTcpServer = new SocketTcpServer(this);
+    socketTcpServer = new SocketTcpServer(listaTSP, this);
     connect(socketTcpServer, SIGNAL(aoConectarNovoCliente(ServerClient*)), this, SLOT(aoConectarNovoCliente(ServerClient*)));
     geradorCaminhos = new GeradorCaminhos(listaTSP, grafoCidades, this);
+    sc = NULL;
 }
 
 PainelDeControle::~PainelDeControle()
@@ -35,6 +38,11 @@ void PainelDeControle::aoConectarNovoCliente(ServerClient *cliente)
 {
     connect(cliente, SIGNAL(aoReceberMensagem(QTcpSocket*,QByteArray)), this, SLOT(aoReceberMensagem(QTcpSocket*,QByteArray)));
     ui->listaClientes->addItem(cliente->getIpCliente());
+}
+
+void PainelDeControle::aoReceberMensagemServidorTCP(QString mensagem)
+{
+    ui->EdtMensagensRecebidasCliente->appendPlainText(mensagem);
 }
 
 void PainelDeControle::carregarArquivoGrafos(QString caminho, Graph *grafo)
@@ -71,4 +79,25 @@ void PainelDeControle::on_btCarregarGrafo_clicked()
     grafoCidades = new Graph(249, 0);
     this->carregarArquivoGrafos(nomeArquivo, grafoCidades);
     geradorCaminhos->setGrafo(grafoCidades);
+}
+
+void PainelDeControle::on_btConectarHost_clicked()
+{
+    sc = new SocketClient(this);
+    sc->conectar(ui->edtEnderecoHost->text(), ui->edtNumeroPorta->text().toInt());
+    connect(sc, SIGNAL(aoReceberMensagemServidorTCP(QString)), this, SLOT(aoReceberMensagemServidorTCP(QString)));
+}
+
+void PainelDeControle::on_btEnviarMensagemClienteServidor_clicked()
+{
+    if (!sc)
+        return;
+    sc->escrever(ui->edtNovaMensagemCliente->text());
+    ui->edtMensagensEnviadasCliente->appendPlainText(ui->edtNovaMensagemCliente->text());
+    ui->edtNovaMensagemCliente->setText("");
+}
+
+void PainelDeControle::on_edtNovaMensagemCliente_returnPressed()
+{
+    on_btEnviarMensagemClienteServidor_clicked();
 }

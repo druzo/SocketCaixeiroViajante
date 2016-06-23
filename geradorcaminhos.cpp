@@ -40,6 +40,7 @@ void GeradorCaminhos::run()
         temporizador.start();
         ResultadoTSP *resultado;
         resultado = genetic->run();
+
         resultado->tempoExecucao = temporizador.elapsed();
         this->listaResultados->append(resultado);
         sleep(1);
