@@ -3,6 +3,7 @@
 #include <QTcpServer>
 #include "serverclient.h"
 #include "tsp.h"
+
 class SocketTcpServer : public QTcpServer
 {
 Q_OBJECT
@@ -14,7 +15,7 @@ signals:
 public slots:
     void aoEstabelecerConexaoCliente(ServerClient *cliente);
 protected:
-#ifdef _WIN32
+#if defined(_WIN32 ) || defined(Q_OS_OSX)
     void incomingConnection(qintptr socketDescriptor);
 #else
     void incomingConnection(int socketDescriptor);

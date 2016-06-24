@@ -24,7 +24,7 @@ void SocketTcpServer::aoEstabelecerConexaoCliente(ServerClient *cliente)
     emit aoConectarNovoCliente(cliente);
 }
 
-#ifdef _WIN32
+#if defined(_WIN32 ) || defined(Q_OS_OSX)
 void SocketTcpServer::incomingConnection(qintptr socketDescriptor)
 #else
 void SocketTcpServer::incomingConnection(int socketDescriptor)
