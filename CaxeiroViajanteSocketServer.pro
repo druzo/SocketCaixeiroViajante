@@ -28,6 +28,7 @@ HEADERS  += paineldecontrole.h \
     tarefaresultadocaxeiroviajante.h \
     tsp.h \
     geradorcaminhos.h \
-    socketclient.h
+    socketclient.h \
+    matriz.h
 
 FORMS    += paineldecontrole.ui
