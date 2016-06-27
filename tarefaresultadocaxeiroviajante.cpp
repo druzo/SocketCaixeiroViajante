@@ -38,7 +38,7 @@ QString TarefaResultadoCaxeiroViajante::buscaMelhorCaminho()
             custo = this->listaResultados->at(i)->custo;
         }
     }
-    qDebug() << "VAIIIIIIIII:" << this->listaResultados->at(posicao)->custo;
+    qDebug()  << this->listaResultados->at(posicao)->custo;
     return "Caminho:" + this->listaResultados->at(posicao)->caminhos +
             " Custo:" + QString::number(this->listaResultados->at(posicao)->custo) +
             " Tempo Processamento:" + QString::number(this->listaResultados->at(posicao)->tempoExecucao);

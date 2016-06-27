@@ -16,6 +16,7 @@ PainelDeControle::PainelDeControle(QWidget *parent) :
     connect(socketTcpServer, SIGNAL(aoConectarNovoCliente(ServerClient*)), this, SLOT(aoConectarNovoCliente(ServerClient*)));
     geradorCaminhos = new GeradorCaminhos(listaTSP, grafoCidades, this);
     sc = NULL;
+    pcvag = new PCVAG("e:\\grafo-caixeiro-matriz-250.txt", 250, 250, 5);
 }
 
 PainelDeControle::~PainelDeControle()

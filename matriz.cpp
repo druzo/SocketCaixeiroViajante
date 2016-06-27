@@ -93,7 +93,7 @@ TEMPL Matriz<T>::Matriz(const unsigned int qtdeLinhas, const unsigned int qtdeCo
     this->qtdeLinhas = qtdeLinhas;
     this->qtdeColunas = qtdeColunas;
     matriz = new T[qtdeLinhas * qtdeColunas];
-    for(int i = 0; i < qtdeLinhas * qtdeColunas; i++)
+    for(unsigned int i = 0; i < qtdeLinhas * qtdeColunas; i++)
     {
         matriz[i] = NULL;
     }

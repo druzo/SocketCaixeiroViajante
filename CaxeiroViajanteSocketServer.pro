@@ -20,7 +20,9 @@ SOURCES += main.cpp\
     tarefaresultadocaxeiroviajante.cpp \
     tsp.cpp \
     geradorcaminhos.cpp \
-    socketclient.cpp
+    socketclient.cpp \
+    pcvag.cpp \
+    libutil.cpp
 
 HEADERS  += paineldecontrole.h \
     serverclient.h \
@@ -29,6 +31,8 @@ HEADERS  += paineldecontrole.h \
     tsp.h \
     geradorcaminhos.h \
     socketclient.h \
-    matriz.h
+    matriz.h \
+    pcvag.h \
+    libutil.h
 
 FORMS    += paineldecontrole.ui

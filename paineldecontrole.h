@@ -7,6 +7,7 @@
 #include "tsp.h"
 #include "geradorcaminhos.h"
 #include "socketclient.h"
+#include "pcvag.h"
 namespace Ui {
 class PainelDeControle;
 }
@@ -38,7 +39,9 @@ private:
     Graph *grafoCidades;
     GeradorCaminhos *geradorCaminhos;
     SocketClient *sc;
+    PCVAG *pcvag;
     void carregarArquivoGrafos(QString caminho, Graph *grafo);
+
 };
 
 #endif // PAINELDECONTROLE_H

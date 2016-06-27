@@ -1,6 +1,6 @@
 #ifndef MATRIZ_H
 #define MATRIZ_H
-
+#include <iostream>
 template <class T>
 class Matriz
 {
