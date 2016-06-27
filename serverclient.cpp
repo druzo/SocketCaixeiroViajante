@@ -75,7 +75,7 @@ void ServerClient::disconnected()
 {
     qDebug() << socketDescriptor << "IP:"<< socket->peerAddress().toString()<< " Desconectou";
     socket->deleteLater();
-    exit(0);
+   // exit(0);
 }
 
 void ServerClient::connected()

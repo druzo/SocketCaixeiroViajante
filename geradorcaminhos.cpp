@@ -23,18 +23,30 @@ void GeradorCaminhos::pararTarefa()
     this->fPararTarefa = true;
 }
 
+bool GeradorCaminhos::verList(int peso)
+{
+    for (int a; a<listaResultados->count(); a++)
+    {
+        if(peso== listaResultados->at(a)->custo){
+            return true;
+        }
+    }
+    return false;
+}
+
 void GeradorCaminhos::run()
 {
     QTime temporizador;
 
-    Genetic *genetic = new Genetic(this->grafo, 10, 1000, 5, true);
+    Genetic *genetic = new Genetic(this->grafo, 100, 2000, 5, true);
+    qDebug()<<"iniciando a busca no grafo";
     while(!fPararTarefa) {
         //variável responsável por fazer transição de grafos, caso seja chamado o setter setGrafo
         if(grafo != grafoTransicao){
             delete grafo;
             grafo = grafoTransicao;
             delete genetic;
-            genetic = new Genetic(this->grafo, 10, 1000, 5, true);
+            genetic = new Genetic(this->grafo, 20, 100, 5, false);
         }
         //iniciando captura do tempo de execução do algoritmo
         temporizador.start();
@@ -43,7 +55,9 @@ void GeradorCaminhos::run()
 
         resultado->tempoExecucao = temporizador.elapsed();
         this->listaResultados->append(resultado);
-        sleep(1);
+        qDebug()<<"finalizou busca no grafo";
+        qDebug()<< this->listaResultados->at(this->listaResultados->count()-1)->custo;
+        //sleep(1);
     }
     exec();
 }
