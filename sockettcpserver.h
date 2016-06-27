@@ -3,12 +3,12 @@
 #include <QTcpServer>
 #include "serverclient.h"
 #include "tsp.h"
-
+#include "pcvag.h"
 class SocketTcpServer : public QTcpServer
 {
 Q_OBJECT
 public:
-    explicit SocketTcpServer(QList<ResultadoTSP*> *listaResultados,QObject *parent);
+    explicit SocketTcpServer(PCVAG *pCVAG, QList<ResultadoTSP*> *listaResultados,QObject *parent);
     void iniciarServidor();
 signals:
     void aoConectarNovoCliente(ServerClient *cliente);
@@ -22,6 +22,7 @@ protected:
 #endif
 private:
     QList<ResultadoTSP*> *listaResultados;
+    PCVAG *pCVAG;
 };
 
 #endif // SOCKETTCPSERVER_H

@@ -10,13 +10,14 @@ PainelDeControle::PainelDeControle(QWidget *parent) :
     ui(new Ui::PainelDeControle)
 {
     ui->setupUi(this);
+    pcvag = new PCVAG("e:\\grafo-caixeiro-matriz-250.txt", 250, 250, 5);
     listaTSP = new QList<ResultadoTSP*>();
     grafoCidades = new Graph(249, 0);
-    socketTcpServer = new SocketTcpServer(listaTSP, this);
+    socketTcpServer = new SocketTcpServer(this->pcvag, listaTSP, this);
     connect(socketTcpServer, SIGNAL(aoConectarNovoCliente(ServerClient*)), this, SLOT(aoConectarNovoCliente(ServerClient*)));
     geradorCaminhos = new GeradorCaminhos(listaTSP, grafoCidades, this);
     sc = NULL;
-    pcvag = new PCVAG("e:\\grafo-caixeiro-matriz-250.txt", 250, 250, 5);
+
 }
 
 PainelDeControle::~PainelDeControle()

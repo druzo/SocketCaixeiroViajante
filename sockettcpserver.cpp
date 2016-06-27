@@ -1,8 +1,9 @@
 #include "sockettcpserver.h"
 
-SocketTcpServer::SocketTcpServer(QList<ResultadoTSP *> *listaResultados, QObject *parent ):QTcpServer(parent)
+SocketTcpServer::SocketTcpServer(PCVAG *pCVAG, QList<ResultadoTSP *> *listaResultados, QObject *parent ):QTcpServer(parent)
 {
     this->listaResultados = listaResultados;
+    this->pCVAG = pCVAG;
 }
 
 void SocketTcpServer::iniciarServidor()
@@ -34,7 +35,7 @@ void SocketTcpServer::incomingConnection(int socketDescriptor)
     qDebug() << socketDescriptor << " Connecting...";
 
     // Every new connection will be run in a newly created thread
-    ServerClient *conexaoCliente = new ServerClient(this->listaResultados, socketDescriptor, this);
+    ServerClient *conexaoCliente = new ServerClient(this->pCVAG, this->listaResultados, socketDescriptor, this);
     connect(conexaoCliente, SIGNAL(aoEstabelecerConexao(ServerClient*)), this, SLOT(aoEstabelecerConexaoCliente(ServerClient*)));
     //quando o objeto de conexão não é mais necessário, apaga o mesmo da memória
     connect(conexaoCliente, SIGNAL(finished()), conexaoCliente, SLOT(deleteLater()));

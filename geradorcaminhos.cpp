@@ -37,7 +37,7 @@ bool GeradorCaminhos::verList(int peso)
 void GeradorCaminhos::run()
 {
     QTime temporizador;
-
+    pCVAG->rodar();
     Genetic *genetic = new Genetic(this->grafo, 100, 2000, 5, true);
     qDebug()<<"iniciando a busca no grafo";
     while(!fPararTarefa) {

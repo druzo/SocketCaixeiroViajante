@@ -8,6 +8,7 @@
 #include <QSemaphore>
 #include <QTime>
 #include <QDebug>
+#include "pcvag.h"
 class GeradorCaminhos : public QThread
 {
     Q_OBJECT
@@ -26,7 +27,9 @@ private:
     Graph *grafo;
     Graph *grafoTransicao;
     QSemaphore gerenteLista;
+    PCVAG *pCVAG;
     bool fPararTarefa;
+    bool verList(int peso);
 protected:
     void run();
 };

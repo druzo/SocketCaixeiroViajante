@@ -14,6 +14,8 @@ PCVAG::PCVAG(QString caminhoArquivoGrafo, unsigned int qtdeColunasGrafo, unsigne
 PCVAG::~PCVAG()
 {
     delete matrizAdjacencia;
+    delete vetorComparacao;
+    delete populacao;
 }
 
 void PCVAG::carregarArquivo(QString caminhoArquivoGrafo, unsigned int qtdeColunasGrafo, unsigned int qtdeLinhasGrafo)
@@ -58,6 +60,15 @@ void PCVAG::rodar()
         else
             crossover();
     }
+}
+
+QString PCVAG::caminhoParaString(int posicao)
+{
+    QString retorno = "";
+    for (unsigned int i = 0; i < populacao->at(posicao)->matrizCaminhos->getQtdeColunas(); ++i) {
+        retorno += QString::number(populacao->at(posicao)->matrizCaminhos->getItem(i)) + " ";
+    }
+    return retorno.trimmed();
 }
 
 void PCVAG::gerarPopulacaoInicial()
@@ -188,6 +199,17 @@ void PCVAG::mutacao()
         populacao->last()->matrizCaminhos->setItem(pontoCorteFinal, item);
         pontoCorteFinal--;
         pontoCorteInicial++;
+    }
+    calcularFitness(populacao->count() -1);
+    qSort(populacao->begin(), populacao->end(), ordenarCrescente);
+}
+
+void PCVAG::calcularFitness(int itemPopulacao)
+{
+    for (unsigned int i = 0; i < populacao->at(itemPopulacao)->matrizCaminhos->getQtdeColunas(); ++i) {
+        if(i >= 1){
+            populacao->at(itemPopulacao)->pesoTotal += this->matrizAdjacencia->getItem(populacao->at(itemPopulacao)->matrizCaminhos->getItem(0, i -1), populacao->at(itemPopulacao)->matrizCaminhos->getItem(0, i));
+        }
     }
 }
 

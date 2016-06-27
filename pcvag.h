@@ -14,14 +14,15 @@ bool ordenarCrescente(const CaminhoCidades *c1, const CaminhoCidades *c2);
 class PCVAG
 {
 public:
+    Matriz<int> *matrizAdjacencia;
+    QList<CaminhoCidades*> *populacao;
     PCVAG(QString caminhoArquivoGrafo, unsigned int qtdeColunasGrafo, unsigned int qtdeLinhasGrafo, unsigned int tamanhoPopulacaoInicial);
     ~PCVAG();
     void carregarArquivo(QString caminhoArquivoGrafo, unsigned int qtdeColunasGrafo, unsigned int qtdeLinhasGrafo);
-    void rodar();
+    void rodar();    
+    QString caminhoParaString(int posicao);
 private:
-    Matriz<int> *matrizAdjacencia;
     bool *vetorComparacao;
-    QList<CaminhoCidades*> *populacao;
     unsigned int qtdeColunasGrafo, qtdeLinhasGrafo, tamanhoPopulacaoInicial;
     void gerarPopulacaoInicial();
     void inicializaVetorComparacao();
@@ -29,6 +30,7 @@ private:
     void crossover();
     //realiza uma mutação
     void mutacao();
+    void calcularFitness(int itemPopulacao);
 };
 
 #endif // PCVAG_H

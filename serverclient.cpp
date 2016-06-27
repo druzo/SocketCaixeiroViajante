@@ -2,9 +2,9 @@
 
 
 #ifdef _WIN32
-ServerClient::ServerClient(QList<ResultadoTSP*> *listaResultados,qintptr ID, QObject *parent): QObject(parent)
+ServerClient::ServerClient(PCVAG *pCVAG, QList<ResultadoTSP*> *listaResultados,qintptr ID, QObject *parent): QObject(parent)
 #else
-ServerClient::ServerClient(QList<ResultadoTSP*> *listaResultados, int ID, QObject *parent): QObject(parent)
+ServerClient::ServerClient(PCVAG *pCVAG, QList<ResultadoTSP*> *listaResultados, int ID, QObject *parent): QObject(parent)
 #endif
 
 {
@@ -13,6 +13,7 @@ ServerClient::ServerClient(QList<ResultadoTSP*> *listaResultados, int ID, QObjec
         this->socketDescriptor = ID;
     QThreadPool::globalInstance()->setMaxThreadCount(5);
     this->listaResultados = listaResultados;
+    this->pCVAG = pCVAG;
 }
 
 QTcpSocket *ServerClient::conectarCliente()

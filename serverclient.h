@@ -7,6 +7,7 @@
 #include <qhostaddress.h>
 #include "tarefaresultadocaxeiroviajante.h"
 #include "tsp.h"
+#include "pcvag.h"
 //classe responsável por manter a conexão entre o cliente externo com o servidor socket
 class ServerClient : public QObject
 {
@@ -16,9 +17,9 @@ Q_OBJECT
 public:
 //diretivas de compilação pois no windows o tipo do construtor é diferente
 #ifdef _WIN32
-    explicit ServerClient(QList<ResultadoTSP*> *listaResultados,qintptr ID, QObject *parent);
+    explicit ServerClient(PCVAG *pCVAG, QList<ResultadoTSP*> *listaResultados,qintptr ID, QObject *parent);
 #else
-    explicit ServerClient(QList<ResultadoTSP*> *listaResultados,int ID, QObject *parent);
+    explicit ServerClient(PCVAG *pCVAG,QList<ResultadoTSP*> *listaResultados,int ID, QObject *parent);
 #endif
     QTcpSocket *conectarCliente();
     QTcpSocket *conectarCliente(QString enderecoIP, qint16 porta);
@@ -42,6 +43,7 @@ public slots:
 private:    
     QTcpSocket *socket;
     QList<ResultadoTSP*> *listaResultados;
+    PCVAG *pCVAG;
 //diretivas de compilação pois no windows o tipo do ID é um e no Linux é outro
 #ifdef _WIN32
     qintptr socketDescriptor;
