@@ -32,7 +32,8 @@ QTcpSocket *ServerClient::conectarCliente()
     connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
     connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
     connect(socket, SIGNAL(connected()), this, SLOT(connected()));
-    socket->write("Bem vindo ao nosso servidor!\n");
+    connect(socket, SIGNAL(bytesWritten(qint64)),this, SLOT(bytesWritten(qint64)));
+//    socket->write("Bem vindo ao nosso servidor!\n");
     return socket;
 }
 
@@ -64,7 +65,7 @@ void ServerClient::readyRead()
     // will write on server side window
     qDebug() << socketDescriptor << "IP:" << socket->peerAddress().toString() << " Dados: " << dados;
     QString mensagem = dados;
-    TarefaResultadoCaxeiroViajante *tarefaRCV = new TarefaResultadoCaxeiroViajante(this->listaResultados, mensagem);
+    TarefaResultadoCaxeiroViajante *tarefaRCV = new TarefaResultadoCaxeiroViajante(this->pCVAG, this->listaResultados, mensagem);
     tarefaRCV->setAutoDelete(true);
     connect(tarefaRCV, SIGNAL(resultado(QString)), this, SLOT(resultado(QString)), Qt::QueuedConnection);
     qDebug()<< "Iniciando nova tarefa no pool de thread";
@@ -76,7 +77,6 @@ void ServerClient::disconnected()
 {
     qDebug() << socketDescriptor << "IP:"<< socket->peerAddress().toString()<< " Desconectou";
     socket->deleteLater();
-   // exit(0);
 }
 
 void ServerClient::connected()
@@ -90,6 +90,13 @@ void ServerClient::resultado(QString dados)
     QByteArray buffer;
     buffer.append(dados);
     socket->write(buffer);
+    //4delete socket;
+}
+
+void ServerClient::bytesWritten(qint64 bytes)
+{
+    qDebug()<< "bytes escritos:"<<bytes;
+    delete socket;
 }
 
 QTcpSocket *ServerClient::getSocket() const

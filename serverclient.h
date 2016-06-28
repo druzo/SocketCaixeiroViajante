@@ -38,6 +38,7 @@ public slots:
     void disconnected();
     void connected();
     void resultado(QString dados);
+    void bytesWritten(qint64 bytes);
 
 
 private:    

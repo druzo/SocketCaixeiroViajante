@@ -66,8 +66,9 @@ QString PCVAG::caminhoParaString(int posicao)
 {
     QString retorno = "";
     for (unsigned int i = 0; i < populacao->at(posicao)->matrizCaminhos->getQtdeColunas(); ++i) {
-        retorno += QString::number(populacao->at(posicao)->matrizCaminhos->getItem(i)) + " ";
+        retorno += QString::number(populacao->at(posicao)->matrizCaminhos->getItem(i)) + ";";
     }
+    retorno.remove(retorno.count()-1, 1);
     return retorno.trimmed();
 }
 
@@ -94,6 +95,11 @@ void PCVAG::gerarPopulacaoInicial()
             }
             qtdeCidades++;
         }
+    }
+    qDebug() << "Peso sem ordenar";
+    for (int i = 0; i < populacao->count(); ++i) {
+        qDebug() <<"Peso:" <<populacao->at(i)->pesoTotal;
+        qDebug() << this->caminhoParaString(i);
     }
     //ordenando de forma crescente
     qSort(populacao->begin(), populacao->end(), ordenarCrescente);
@@ -184,22 +190,26 @@ void PCVAG::crossover()
     populacao->append(caminhoCidades1);
     populacao->append(caminhoCidades2);
     qSort(populacao->begin(), populacao->end(), ordenarCrescente);
-    qDebug()<<"peso 1 "<<caminhoCidades1->pesoTotal;
-    qDebug()<<"peso 2 "<<caminhoCidades2->pesoTotal;
+//    qDebug()<<"peso 1 "<<caminhoCidades1->pesoTotal;
+//    qDebug()<<"peso 2 "<<caminhoCidades2->pesoTotal;
 }
 
 void PCVAG::mutacao()
 {
     unsigned int pontoCorteInicial = randEntre(0, qtdeColunasGrafo/2);
-    unsigned int pontoCorteFinal  = randEntre((qtdeColunasGrafo/2) + 1, qtdeColunasGrafo);
-    while(pontoCorteFinal != pontoCorteInicial)
-    {
-        int item = populacao->last()->matrizCaminhos->getItem(pontoCorteInicial);
-        populacao->last()->matrizCaminhos->setItem(pontoCorteInicial, populacao->last()->matrizCaminhos->getItem(pontoCorteFinal -1));
-        populacao->last()->matrizCaminhos->setItem(pontoCorteFinal, item);
-        pontoCorteFinal--;
-        pontoCorteInicial++;
-    }
+    unsigned int pontoCorteFinal  = randEntre((qtdeColunasGrafo/2) + 1, qtdeColunasGrafo -1);
+    int valor1 = populacao->last()->matrizCaminhos->getItem(pontoCorteInicial);
+    populacao->last()->matrizCaminhos->setItem(pontoCorteInicial, populacao->last()->matrizCaminhos->getItem(pontoCorteFinal));
+    populacao->last()->matrizCaminhos->setItem(pontoCorteInicial, valor1);
+
+//    while(pontoCorteFinal != pontoCorteInicial)
+//    {
+//        int item = populacao->last()->matrizCaminhos->getItem(pontoCorteInicial);
+//        populacao->last()->matrizCaminhos->setItem(pontoCorteInicial, populacao->last()->matrizCaminhos->getItem(pontoCorteFinal -1));
+//        populacao->last()->matrizCaminhos->setItem(pontoCorteFinal, item);
+//        pontoCorteFinal--;
+//        pontoCorteInicial++;
+//    }
     calcularFitness(populacao->count() -1);
     qSort(populacao->begin(), populacao->end(), ordenarCrescente);
 }

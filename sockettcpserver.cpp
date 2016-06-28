@@ -8,7 +8,7 @@ SocketTcpServer::SocketTcpServer(PCVAG *pCVAG, QList<ResultadoTSP *> *listaResul
 
 void SocketTcpServer::iniciarServidor()
 {
-    int porta = 1234;
+    int porta = 55555;
 
     if(!this->listen(QHostAddress::Any, porta))
     {
@@ -38,7 +38,7 @@ void SocketTcpServer::incomingConnection(int socketDescriptor)
     ServerClient *conexaoCliente = new ServerClient(this->pCVAG, this->listaResultados, socketDescriptor, this);
     connect(conexaoCliente, SIGNAL(aoEstabelecerConexao(ServerClient*)), this, SLOT(aoEstabelecerConexaoCliente(ServerClient*)));
     //quando o objeto de conexão não é mais necessário, apaga o mesmo da memória
-    connect(conexaoCliente, SIGNAL(finished()), conexaoCliente, SLOT(deleteLater()));
+    //connect(conexaoCliente, SIGNAL(finished()), conexaoCliente, SLOT(deleteLater()));
     conexaoCliente->conectarCliente();
     emit aoConectarNovoCliente(conexaoCliente);
 }

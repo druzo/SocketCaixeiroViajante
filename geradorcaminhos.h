@@ -18,6 +18,7 @@ public:
     Graph *getGrafo() const;
     void setGrafo(Graph *value);
     void pararTarefa();
+    PCVAG *pCVAG;
 
 signals:
 
@@ -27,7 +28,7 @@ private:
     Graph *grafo;
     Graph *grafoTransicao;
     QSemaphore gerenteLista;
-    PCVAG *pCVAG;
+
     bool fPararTarefa;
     bool verList(int peso);
 protected:

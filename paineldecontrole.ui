@@ -40,7 +40,7 @@
           <item>
            <widget class="QLineEdit" name="edtEnderecoHost">
             <property name="text">
-             <string>127.0.0.1</string>
+             <string>192.168.50.209</string>
             </property>
            </widget>
           </item>
@@ -60,7 +60,7 @@
              </size>
             </property>
             <property name="text">
-             <string>1234</string>
+             <string>12345</string>
             </property>
            </widget>
           </item>
@@ -230,7 +230,7 @@
      <x>0</x>
      <y>0</y>
      <width>1037</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

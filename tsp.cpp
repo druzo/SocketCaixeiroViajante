@@ -517,14 +517,15 @@ ResultadoTSP *Genetic::run()
 	
     ResultadoTSP *retorno = new ResultadoTSP;
     cout << "\nBest solution: ";
-    retorno->caminhos = "[";
+    retorno->caminhos = "";
 	const vector<int>& vec = population[0].first;
 
     for(int i = 0; i < graph->V; i++){
-		cout << vec[i] << " ";
-        retorno->caminhos += QString::number(vec[i]) + " ";
+//        cout << vec[i] << " ";
+        retorno->caminhos += QString::number(vec[i]) + ";";
     }
-    retorno->caminhos += "]";
+    retorno->caminhos.remove(retorno->caminhos.count() -1,1);
+
 	cout << graph->initial_vertex;
     cout << " | Custo: " << population[0].second;
     retorno->custo = population[0].second;

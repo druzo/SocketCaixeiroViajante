@@ -37,16 +37,20 @@ bool GeradorCaminhos::verList(int peso)
 void GeradorCaminhos::run()
 {
     QTime temporizador;
+    //rodando o AG construido para o trabalho
+    //que por sua vez está na versão
+    //Mini ALPHA 0.0001
     pCVAG->rodar();
-    Genetic *genetic = new Genetic(this->grafo, 100, 2000, 5, true);
+
     qDebug()<<"iniciando a busca no grafo";
     while(!fPararTarefa) {
+        Genetic *genetic = new Genetic(this->grafo, randEntre(1000,20000), randEntre(2000, 50000), randEntre(0, 100), true);
         //variável responsável por fazer transição de grafos, caso seja chamado o setter setGrafo
         if(grafo != grafoTransicao){
             delete grafo;
             grafo = grafoTransicao;
             delete genetic;
-            genetic = new Genetic(this->grafo, 20, 100, 5, false);
+            genetic = new Genetic(this->grafo, 2000, 1000, 100, false);
         }
         //iniciando captura do tempo de execução do algoritmo
         temporizador.start();
@@ -58,6 +62,7 @@ void GeradorCaminhos::run()
         qDebug()<<"finalizou busca no grafo";
         qDebug()<< this->listaResultados->at(this->listaResultados->count()-1)->custo;
         //sleep(1);
+        delete genetic;
     }
     exec();
 }

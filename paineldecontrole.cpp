@@ -10,14 +10,17 @@ PainelDeControle::PainelDeControle(QWidget *parent) :
     ui(new Ui::PainelDeControle)
 {
     ui->setupUi(this);
-    pcvag = new PCVAG("e:\\grafo-caixeiro-matriz-250.txt", 250, 250, 5);
+    //Atenção alterar caminho para o nome do arquivo correto.
+  //  pcvag = new PCVAG("/tmp/grafos-caixeiro_viajante/grafo-caixeiro-matriz-250.txt", 250, 250, 100);
+//    pcvag = new PCVAG("/tmp/grafos-caixeiro_viajante/grafo-500.txt", 500, 500, 100);
+    pcvag = new PCVAG("/tmp/grafos-caixeiro_viajante/grafo-300.txt", 300, 500, 100);
     listaTSP = new QList<ResultadoTSP*>();
-    grafoCidades = new Graph(249, 0);
+    grafoCidades = new Graph(259, 0);
     socketTcpServer = new SocketTcpServer(this->pcvag, listaTSP, this);
     connect(socketTcpServer, SIGNAL(aoConectarNovoCliente(ServerClient*)), this, SLOT(aoConectarNovoCliente(ServerClient*)));
     geradorCaminhos = new GeradorCaminhos(listaTSP, grafoCidades, this);
+    geradorCaminhos->pCVAG = this->pcvag;
     sc = NULL;
-
 }
 
 PainelDeControle::~PainelDeControle()
@@ -78,7 +81,7 @@ void PainelDeControle::on_btCarregarGrafo_clicked()
     QString nomeArquivo = QFileDialog::getOpenFileName(this,tr("Abrir Arquivo de Grafo"), "", tr("Arquivos Textos (*.txt)"));
     if(nomeArquivo == "")
         return;
-    grafoCidades = new Graph(249, 0);
+    grafoCidades = new Graph(259, 0);
     this->carregarArquivoGrafos(nomeArquivo, grafoCidades);
     geradorCaminhos->setGrafo(grafoCidades);
 }

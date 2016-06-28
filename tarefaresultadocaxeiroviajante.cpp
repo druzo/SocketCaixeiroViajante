@@ -1,10 +1,12 @@
 #include "tarefaresultadocaxeiroviajante.h"
 #include <QDebug>
-TarefaResultadoCaxeiroViajante::TarefaResultadoCaxeiroViajante(QList<ResultadoTSP *> *listaResultados, QString mensagem)
+#include "libutil.h"
+TarefaResultadoCaxeiroViajante::TarefaResultadoCaxeiroViajante(PCVAG *pCVAG, QList<ResultadoTSP *> *listaResultados, QString mensagem)
 {
     qDebug() << "Rodando Tarefa de resultado do caxeiro Viajante";
     this->mensagem = mensagem;
     this->listaResultados = listaResultados;
+    this->pCVAG = pCVAG;
 }
 
 void TarefaResultadoCaxeiroViajante::run()
@@ -14,10 +16,19 @@ void TarefaResultadoCaxeiroViajante::run()
     int opcao = mensagem.toInt();
     switch (opcao) {
     case 1:
-        emit resultado("Bem vindo nós somos o grupo top, Fabiano, Paulo e Antônio!");
+        emit resultado("Druzo, Fabiano e Paulo");
         break;
     case 2:
-        emit resultado(buscaMelhorCaminho());
+        emit resultado( buscaMelhorCaminho());
+        //emit resultado(pCVAG->caminhoParaString(0));
+        break;
+    case 3:
+        //emit resultado( buscaMelhorCaminho());
+        //emit resultado(pCVAG->caminhoParaString(pCVAG->populacao->count() -1));
+        break;
+    case 4:
+        //emit resultado( buscaMelhorCaminho());
+        //emit resultado(pCVAG->caminhoParaString(randEntre(0, pCVAG->populacao->count() -1)));
         break;
     default:
         emit resultado("Comando não reconhecido!");
@@ -38,8 +49,7 @@ QString TarefaResultadoCaxeiroViajante::buscaMelhorCaminho()
             custo = this->listaResultados->at(i)->custo;
         }
     }
-    return "Caminho:" + this->listaResultados->at(posicao)->caminhos +
-            " Custo:" + QString::number(this->listaResultados->at(posicao)->custo) +
-            " Tempo Processamento:" + QString::number(this->listaResultados->at(posicao)->tempoExecucao);
+    return this->listaResultados->at(posicao)->caminhos;// +
+//            " Custo:" + QString::number(this->listaResultados->at(posicao)->custo) +
+//            " Tempo Processamento:" + QString::number(this->listaResultados->at(posicao)->tempoExecucao);
 }
-

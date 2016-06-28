@@ -6,11 +6,12 @@
 #include <QRunnable>
 #include "tsp.h"
 #include <limits>
+#include "pcvag.h"
 class TarefaResultadoCaxeiroViajante : public QObject, public QRunnable
 {
     Q_OBJECT
 public:
-    explicit TarefaResultadoCaxeiroViajante(QList<ResultadoTSP*> *listaResultados, QString mensagem);
+    explicit TarefaResultadoCaxeiroViajante(PCVAG *pCVAG, QList<ResultadoTSP*> *listaResultados, QString mensagem);
 
 signals:
     void resultado(QString dados);
@@ -21,6 +22,7 @@ private:
     QString mensagem;
     QList<ResultadoTSP*> *listaResultados;
     QString buscaMelhorCaminho();
+    PCVAG *pCVAG;
 };
 
 #endif // TAREFARESULTADOCAXEIROVIAJANTE_H
